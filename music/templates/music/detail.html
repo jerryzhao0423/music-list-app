@@ -1,0 +1,57 @@
+{% extends 'music/base.html' %}
+{% block title %}Album Details{% endblock %}
+
+{% block body %}
+    <div class="col-sm-3">
+        <div class="thumbnail">
+            <img src="{{ album.album_logo }}" width="300"/>
+            <h3>{{ album.album_title }}</h3>
+            <h4>{{ album.genre }}</h4>
+            <h4>{{ album.artist }}</h4>
+        </div>
+    </div>
+    <div>
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
+        <div class="col-sm-8">
+            <ul class="nav nav-pills" style="margin-bottom: 20px">
+                <li role="presentation" class="active"><a href="{% url 'music:index' %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'music:song_add' album.pk %}">Add New Song</a></li>
+            </ul>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>All Songs:</h4><hr/>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Album</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for song in album.song_set.all %}
+                            <tr>
+                                <td>{{ song.song_title }}</td>
+                                <td>{{ song.album.album_title }}</td>
+                                <td>
+                                    <form action="{% url 'music:song_delete' song.album.id song.id %}" method="post" style="display: inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="song_id" value="{{ song.id }}"/>
+                                        <button type="submit" class="btn btn-default btn-sm">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

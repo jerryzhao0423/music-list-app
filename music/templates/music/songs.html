@@ -1,0 +1,32 @@
+{% extends 'music/base.html' %}
+{% block title %} Songs {% endblock %}
+{% block songs_active %}active{% endblock %}
+{% block body %}
+        <div class="col-sm-offset-2 col-sm-8">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h4>All Songs:{{ q }}</h4><hr/>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Album</th>
+                            <th>Artist</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for song in all_songs %}
+                            <tr>
+                                <td>{{ song.song_title }}</td>
+                                <td>{{ song.album.album_title }}</td>
+                                <td>{{ song.album.artist }}</td>
+                                <td><button>Delete</button></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+{% endblock %}
